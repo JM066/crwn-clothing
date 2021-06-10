@@ -1,23 +1,25 @@
-import React from 'react';
-import './header.styles.scss';
+import React from "react";
+import "./header.styles.scss";
 
-import CartIcon from '../cart-icon/cart-icon.component';
-import CartDropdown from '../cart-dropdown/cart-dropdown.component';
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
+import CartIcon from "../cart-icon/cart-icon.component";
+import CartDropdown from "../cart-dropdown/cart-dropdown.component";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 // import { auth } from '../../firebase/firebase.utils';
-import { ReactComponent as Logo } from '../../assets/crown.svg';
+import { ReactComponent as Logo } from "../../assets/crown.svg";
+import { selectCurrentUser } from "../../redux/user/user.selectors";
+import { selectCartHidden } from "../../redux/cart/cart.selectors";
 
 const Header = ({ currentUser, hidden }) => (
-  <div className='header'>
-    <Link className='logo-container' to='/'>
-      <Logo className='logo' />
+  <div className="header">
+    <Link className="logo-container" to="/">
+      <Logo className="logo" />
     </Link>
-    <div className='options'>
-      <Link className='option' to='/shop'>
+    <div className="options">
+      <Link className="option" to="/shop">
         SHOP
       </Link>
-      <Link className='option' to='/shop'>
+      <Link className="option" to="/shop">
         CONTACT
       </Link>
       {/* {currentUser ? (
@@ -25,19 +27,19 @@ const Header = ({ currentUser, hidden }) => (
           SIGN OUT
         </div>
       ) : ( */}
-        <Link className='option' to='/signin'>
-          SIGN IN
-        </Link>
+      <Link className="option" to="/signin">
+        SIGN IN
+      </Link>
       {/* )} */}
-         <CartIcon />
+      <CartIcon />
     </div>
-    { hidden ? null : <CartDropdown/> }
+    {hidden ? null : <CartDropdown />}
   </div>
 );
 
-const mapStateToProps = ({user: {currentUser}, cart: {hidden}}) => ({
-  currentUser,
-  hidden
+const mapStateToProps = (state) => ({
+  currentUser: selectCurrentUser(state),
+  hidden: selectCartHidden(state),
 });
 
 export default connect(mapStateToProps)(Header);
